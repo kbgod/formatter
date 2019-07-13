@@ -2,7 +2,7 @@
 `composer require askoldex/formatter`
 
 ### Usage
-```
+```php
 use Askoldex\Formatter\Formatter;
 
 class Engine
