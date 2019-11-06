@@ -6,6 +6,10 @@ class Formatter
 {
     private $associations = [];
 
+    /**
+     * Formatter constructor.
+     * @param array $associations
+     */
     public function __construct(array $associations = [])
     {
         foreach ($associations as $var => $object) {
@@ -33,6 +37,11 @@ class Formatter
         } else return null;
     }
 
+    /**
+     * @param array $arr
+     * @param $data
+     * @return bool|mixed|null
+     */
     private function resolve(array $arr, $data)
     {
         foreach ($arr AS $val) {
@@ -56,13 +65,22 @@ class Formatter
         return $data;
     }
 
+    /**
+     * @param string $message
+     * @return mixed
+     */
     private function parseMessage(string $message)
     {
         preg_match_all("#{(.*?)}#", $message, $matches);
         return $matches[1];
     }
 
-    private function checkObject(string $template, $ignore)
+    /**
+     * @param string $template
+     * @param bool $ignore
+     * @return bool|string
+     */
+    private function checkObject(string $template, bool $ignore)
     {
         if($ignore) return $template;
         if (mb_substr($template, 0, 1) == '+') {
@@ -70,6 +88,11 @@ class Formatter
         } else return false;
     }
 
+    /**
+     * @param string $template
+     * @param bool $ignore
+     * @return bool|mixed|string|null
+     */
     private function getField(string $template, bool $ignore = true)
     {
         $object = $this->checkObject($template, $ignore);
@@ -83,6 +106,10 @@ class Formatter
         return $text;
     }
 
+    /**
+     * @param array $parts
+     * @return bool|mixed|string|null
+     */
     private function resolveVertical(array $parts)
     {
         if (count($parts) == 2) {
@@ -95,6 +122,10 @@ class Formatter
         } else return false;
     }
 
+    /**
+     * @param array $parts
+     * @return bool|mixed|string|null
+     */
     private function resolveQuestion(array $parts)
     {
         if (count($parts) == 2) {
@@ -107,13 +138,23 @@ class Formatter
         } else return false;
     }
 
+    /**
+     * @param string $template
+     * @return bool|mixed|string|null
+     */
     private function resolveTemplate(string $template)
     {
         $text = $this->getField($template);
         return $text;
     }
 
-    private function replace($match, $text, &$message)
+    /**
+     * @param string $match
+     * @param string $text
+     * @param $message
+     * @return bool
+     */
+    private function replace(string $match, string $text, &$message): bool
     {
         $message = str_replace('{' . $match . '}', $text, $message);
         return true;
@@ -131,9 +172,12 @@ class Formatter
         if ($text !== false) return $this->replace($match, $text, $message);
     }
 
-    public function format(string $message)
+    /**
+     * @param string $message
+     * @return string
+     */
+    public function format(string $message): string
     {
-        //preg_match_all("#\{([\dA-Za-z_\.]+)\|([\dA-Za-z_\.]+)\}#", $message, $matches);
         $matches = $this->parseMessage($message);
         foreach ($matches as $key => $match) {
             $this->process($match, $message);
