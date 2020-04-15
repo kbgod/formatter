@@ -176,7 +176,7 @@ class Formatter
      * @param string $message
      * @return string
      */
-    public function format(string $message = null): string
+    public function format(string $message = null): ?string
     {
         if($message == null) return $message;
         $matches = $this->parseMessage($message);

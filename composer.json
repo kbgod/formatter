@@ -2,7 +2,7 @@
     "name": "askoldex/formatter",
     "description": "PHP text formatting",
     "type": "library",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "license": "MIT",
     "authors": [
         {
